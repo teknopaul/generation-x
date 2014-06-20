@@ -19,8 +19,9 @@ mvn install
 # Example
 
 This example code creates a bootstrap HTML page. Generation-X is perhaps better suited to genreating
-XML but the HTML schema should be familiar so it should be easy to see from this exmaple what
+XML but the HTML schema should be familiar so it should be easy to see from this example what
 the intention of the code is.
+N.B. _select()_ is using XPaths and _create()_ is useing xGenPaths.
 
     XGen xGen = XGenFactory.newInstance();
     xGen.setOutputMethod("html");
@@ -49,7 +50,7 @@ the intention of the code is.
     // simplified XML serialization
     xGen.serialize(new FileOutputStream("./src/test/eg/index.html"));
 
-The above exmale uses only Generation-X code but behind the scenes the stnadard Java w3c Dom is used and you can 
+The above example uses only Generation-X code but behind the scenes the standard Java w3c Dom is used, you can 
 mix and match between the APIs.
 
     // Create doc with w3c APIs
@@ -68,7 +69,7 @@ mix and match between the APIs.
     // Print with xGen
     XGenFactory.newInstance(doc).serialize(System.out);
 
-    // Or print with verbose Java APIs if you prefer
+    // Or print with Java APIs
     DOMSource domSource = new DOMSource(doc);
     TransformerFactory factory = TransformerFactory.newInstance();
     factory.setAttribute("indent-number", "2");
@@ -82,7 +83,7 @@ mix and match between the APIs.
 
 # XGenNodeList
 
-The XGen select() and create() methods return a w3c compatibly nodeList but the object returned has some handy fetures.
+The XGen _select()_ and _create()_ methods return a w3c compatibly nodeList but the object returned has some handy features.
 
 ## XGenNodeList mutators
 
