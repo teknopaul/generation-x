@@ -83,7 +83,7 @@ mix and match between the APIs.
 
 # XGenNodeList
 
-The XGen _select()_ and _create()_ methods return a w3c compatibly nodeList but the object returned has some handy features.
+The XGen _select()_ and _create()_ methods return a w3c compatible NodeList but the object returned has some handy features.
 
 ## XGenNodeList mutators
 
@@ -91,15 +91,17 @@ XGenNodeList has mutator methods that affect all the elements in the list.
 
     xGenNodeList.setTextContent("foo")
 
-will add "foo" to _all_ the elements in the list.  this is similar to jQuery code where all selectors are potentially arrays.
+will add "foo" to _all_ the elements in the list.  This is similar to jQuery code where all selectors are potentially arrays.
 
-setTextContent() takes a var-args so if you know you have three elements you can write
+_setTextContent()_ takes a var-args so if you know you have three elements you can write
 
-   xGen.create("/div/ul/li[3]").setTextContent("one", "two", "three");
+    xGen.create("/div/ul/li[3]").setTextContent("one", "two", "three");
 
-setAttribute(name, value) also works on all the elements in the list.
+_setAttribute(name, value)_ also works on all the elements in the list.
 
-as does appendChild()  and also select() and create().
+as does _appendChild()_ and also _select()_ and _create()_.
+
+## Chaining calls
 
 XGenNodeList methods generally return _this_ so you can chain calls
 
@@ -112,7 +114,9 @@ XGenNodeList methods generally return _this_ so you can chain calls
         .setAttribute("class", "grey");
     xGen.serialize(System.out);
 
-For JDK 7 we dont have lambdas yet but there is an each method to whet your appetite.
+## Lambdas
+
+For JDK 7 we dont have lambdas yet but there is an _each()_ method to whet your appetite.
 
     xGen.newDocument("/xml")
         .create("div/ul/li[3]")
@@ -138,8 +142,8 @@ Ideas for future development
 
 * Lamda support - need specific Java 8 builds.
 * xGenPath for jQuery - would be cool should be easy to port from Java.
-* xGenPath for nodejs - XML so favoured in nodejs world but might help someone.
-* xGenPath for JSON - Should be as usefull for generating big JSON blobs as it is for XML.
-* support for .. parent paths - This would save some xpath lookups, but might be hard to implement.
+* xGenPath for nodejs - XML is not favoured in the nodejs community but might help someone.
+* xGenPath for JSON - Should be as useful for generating big JSON blobs as it is for XML.
+* Support for .. parent paths - This would save some xpath lookups, but might be hard to implement.
 
 
