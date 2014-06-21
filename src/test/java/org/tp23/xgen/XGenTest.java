@@ -6,12 +6,13 @@ package org.tp23.xgen;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * This test serves as example code, as a JUnit tests its pretty lame since it does no asserts.
+ * This test serves as example code..
  * 
  * @author teknopaul
  *
@@ -24,6 +25,7 @@ public class XGenTest {
 	 */
 	@Test
 	public void testMinialHtmlGeneration() throws XGenExpressionException, XPathExpressionException, TransformerException {
+
 		XGen xGen = XGenFactory.newInstance(FactoryUtils.newDocument());
 		xGen.newDocument("/html/head/title");
 		xGen.select("//title").setTextContent("Documentation");
@@ -32,6 +34,14 @@ public class XGenTest {
 		xGen.select("//body").create("navigation/ul/li[5]").setTextContent("Menu Item");
 		xGen.select("//body").create("footer").setTextContent("Copyleft teknopaul");
 		xGen.serialize(System.out);
+
+		// Assert we have one and only one
+		Assert.assertEquals(1, xGen.select("//title").getLength());
+		Assert.assertEquals(1, xGen.select("//body").getLength());
+		Assert.assertEquals(1, xGen.select("//header").getLength());
+		Assert.assertEquals(1, xGen.select("//footer").getLength());
+		// and five of these
+		Assert.assertEquals(5, xGen.select("//li").getLength());
 	}
 	
 	/**
@@ -40,9 +50,9 @@ public class XGenTest {
 	 */
 	@Test
 	public void testArraySyntax() throws XGenExpressionException, XPathExpressionException, TransformerException {
+
 		XGen xGen = XGenFactory.newInstance();
 		xGen.newDocument("/html/head/title");
-		
 		
 		XGenNodeList headings = xGen.select("//html").create("body/div{id=container}/table{class=table}/thead/tr/th[4]");
 		headings.setTextContent(new String[]{
@@ -60,6 +70,14 @@ public class XGenTest {
 		table.select("tbody/tr[2]/td").setTextContent(data[1]).setAttribute("class", "even");
 		
 		xGen.serialize(System.out);
+
+		Assert.assertEquals(1, xGen.select("//title").getLength());
+		Assert.assertEquals(1, xGen.select("//body").getLength());
+		Assert.assertEquals(1, xGen.select("//table").getLength());
+		Assert.assertEquals(3, xGen.select("//tr").getLength());
+		Assert.assertEquals(4, xGen.select("//th").getLength());
+		Assert.assertEquals(8, xGen.select("//td").getLength());
+
 	}
 
 	/**
@@ -68,6 +86,7 @@ public class XGenTest {
 	 */
 	@Test
 	public void testSetTextContext() throws XGenExpressionException, XPathExpressionException, TransformerException {
+
 		XGen xGen = XGenFactory.newInstance(FactoryUtils.newDocument());
 		xGen.newDocument("/html/head/title");
 		xGen.select("//title").setTextContent("Documentation");
@@ -76,6 +95,16 @@ public class XGenTest {
 		xGen.select("//body").create("navigation/ul/li[5]").setTextContent("Menu Item");
 		xGen.select("//body").create("footer").setTextContent("Copyleft teknopaul");
 		xGen.serialize(System.out);
+
+		Assert.assertEquals(1, xGen.select("//html").getLength());
+		Assert.assertEquals(1, xGen.select("//title").getLength());
+		Assert.assertEquals(1, xGen.select("//body").getLength());
+		Assert.assertEquals(1, xGen.select("//article").getLength());
+		Assert.assertEquals(5, xGen.select("//li").getLength());
+		Assert.assertEquals(1, xGen.select("//footer").getLength());
+		Assert.assertEquals("Copyleft teknopaul", xGen.select("//footer").item(0).getTextContent());
+		Assert.assertEquals("My doc", xGen.select("//footer").item(0).getTextContent());
+
 	}
 	
 	/**
@@ -88,6 +117,10 @@ public class XGenTest {
 		xGen.select("//title").setTextContent("Example");
 		xGen.select("//html").create("body#home/article");
 		xGen.serialize(System.out);
+
+		Assert.assertEquals("home", xGen.select("//body").item(0).getAttributes().getNamedItem("id").getNodeValue());
+		Assert.assertNull(xGen.select("//article").item(0).getAttributes().getNamedItem("id"));
+
 	}
 
 	/**
@@ -107,6 +140,13 @@ public class XGenTest {
 		// comes with html output
 		//xGen.setOutputMethod("xml");
 		xGen.serialize(System.out);
+
+		Assert.assertEquals("main", xGen.select("//html").item(0).getAttributes().getNamedItem("id").getNodeValue());
+		Assert.assertEquals("small", xGen.select("//footer").item(0).getAttributes().getNamedItem("class").getNodeValue());
+		// Asser classess dont break anything futher down
+		Assert.assertEquals("Copyleft teknopaul", xGen.select("//footer").item(0).getTextContent());
+		Assert.assertEquals(4, xGen.select("//div").getLength());
+
 	}
 	
 	/**
@@ -121,7 +161,9 @@ public class XGenTest {
 	public void testInsertingXml() throws XGenExpressionException, XPathExpressionException, TransformerException {
 		XGen xGen = XGenFactory.newInstance(FactoryUtils.newDocument());
 		xGen.newDocument("/html/head/title");
-		xGen.select("//html").create("body#home").create("<div id=\"foo\">foo &amp; baa</div>");
+		xGen.select("//html").create("body#home").create("<div id=\"foo\">me &amp; you</div>");
 		xGen.serialize(System.out);
+
+		Assert.assertEquals("me & you", xGen.select("//div").item(0).getTextContent());
 	}
 }

@@ -3,3 +3,7 @@ TODO
 support for "../" Should make chaining pretty sexy
 support for lambdas in JDK 8
 test appendNode and node cloning in XGenNodeList
+Should trailing slashes raise a syntax error?
+
+Negative JUnit testing, check early fail and description of failure is correct.
+Syntax checker?

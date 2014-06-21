@@ -107,19 +107,39 @@ public class ReadmeTest {
 
 	@Test
 	public void testNodeMutator() throws Exception {
-		
+		final int[]i = new int[1];
 		XGen xGen = XGenFactory.newInstance();
 		xGen.newDocument("/xml")
-			.create("div/ul/li[3]")
+			.create("div/ul/li[3]").setTextContent("a", "b", "c")
 			.each(new NodeMutator() {
 				public Node each(Node node) {
-					((Element)node).setAttribute("abc", "123");
+					((Element)node).setAttribute("id", "123-" + i[0]++);
 					return node;
 				}
 			});
 		xGen.serialize(System.out);
 		
 	}
+	
+	@Test
+	public void testWalking() throws Exception {
+		final int[]i = new int[1];
+		XGen xGen = XGenFactory.newInstance();
+		xGen.newDocument("/walking/down")
+			.create("the")
+			.create("right/path")
+			.create("keep/walking[5]")
+			.each(new NodeMutator() {
+				@Override
+				public Node each(Node node) {
+					node.setTextContent("" + i[0]++);
+					return node;
+				}
+			});
+		xGen.serialize(System.out);
+		
+	}
+	
 	private String getFile(int i) {
 		return "file" + i;
 	}
