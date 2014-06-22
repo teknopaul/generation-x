@@ -8,8 +8,6 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * This test serves as example code..
@@ -103,7 +101,6 @@ public class XGenTest {
 		Assert.assertEquals(5, xGen.select("//li").getLength());
 		Assert.assertEquals(1, xGen.select("//footer").getLength());
 		Assert.assertEquals("Copyleft teknopaul", xGen.select("//footer").item(0).getTextContent());
-		Assert.assertEquals("My doc", xGen.select("//footer").item(0).getTextContent());
 
 	}
 	
