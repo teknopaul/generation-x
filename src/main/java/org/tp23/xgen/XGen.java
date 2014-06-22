@@ -154,7 +154,6 @@ public class XGen {
 	/**
 	 * Create XML content, and insert it as a child of the root element.
 	 * 
-	 * @param elem where to insert the new elements
 	 * @param xGenPath a xGen path string, or a whole parseable XML doc as a string.
 	 * @return The tail nodes, i.e. a list of all leaf nodes created
 	 * @throws XGenExpressionException
@@ -350,9 +349,8 @@ public class XGen {
 	/**
 	 * Create one step in an xGen Path e.g. if path is /html/head/body{id=index}/div[3]
 	 * html, head and body are all steps
-	 * @param nextNode
+	 * @param context parent node to the element being created
 	 * @param step  step syntax is element or element{att:val} or element[n]
-	 * @return
 	 */
 	private XGenNodeList createPathStep(Element context, XGenPathStep step) {
 		XGenNodeList generatedNodes = new XGenNodeList(this);
