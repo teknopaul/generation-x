@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+This is a build_farm LIB build
+-->
+<project name="TP23 Commons LIB Build: generation-x"  default="prepare"  basedir=".">
+
+	<property environment="env" />
+	<property name="master.project.dir" value="${projects.dir}/generation-x" />
+
+	<fileset id="buildonly.class.path"
+		 dir="${dependencies.dir}">
+		<patternset>
+			<include name="junit/jars/junit-${junit.version}.jar"/>
+		</patternset>
+	</fileset>
+	<fileset id="public.dep.class.path"
+		dir="${dependencies.dir}">
+		<patternset>
+			<!--include name="commons/jars/tp23-commons-${commons.version}.jar"/-->
+			<!--include name="jdom-${jdom.version}/jars/*.jar"/-->
+		</patternset>
+	</fileset>
+
+	<path id="project.class.path">
+		<fileset refid="buildonly.class.path"/>
+		<fileset refid="public.dep.class.path"/>
+	</path>
+	
+	<target name="deploy-lib"  depends="prepare, configure, jar, copy"/>
+	
+	<target name="prepare" />
+	
+	<target name="configure" />
+
+	<target name="jar">
+		<jar file="${prepare.dir}/generation-x/generation-x.jar">
+			<fileset dir="${master.project.dir}">
+				<include name="LICENSE-commons.txt"/>
+			</fileset>
+			<fileset dir="${prepare.dir}/generation-x/classes">
+				<include name="**/*.class"/>
+				<include name="resources/*"/>
+				<exclude name="**/CVS/**"/>
+			</fileset>
+			<manifest>
+				<attribute name="Manifest-Version"      value="1.0"/>
+				<attribute name="BuildFarm-Version"     value="HEAD"/>
+			</manifest>
+		</jar>
+		<echo message="jar: ${prepare.dir}/generation-x/generation-x.jar"/>
+	</target>
+	
+    <target name="copy">
+		<mkdir dir="${prepare.dir}/generation-x"/>
+    	<copy 
+			  file="${prepare.dir}/generation-x/generation-x.jar" 
+			  tofile="${dependencies.dir}/generation-x/jars/generation-x-HEAD.jar" 
+    		verbose="true"/>
+    </target>
+
+</project>
