@@ -6,7 +6,9 @@ This is a build_farm LIB build
 
 	<property environment="env" />
 	<property name="master.project.dir" value="${projects.dir}/generation-x" />
-
+	<property name="javasrc" value="${projects.dir}/generation-x/src/main/java/"/>
+	<property name="javadest" value="${projects.dir}/generation-x/target/classes"/>
+	
 	<fileset id="buildonly.class.path"
 		 dir="${dependencies.dir}">
 		<patternset>
@@ -31,13 +33,28 @@ This is a build_farm LIB build
 	<target name="prepare" />
 	
 	<target name="configure" />
-
+	
+	<target name="compile" depends="">
+		<echo message="compiling to: ${prepare.dir}/${env.PROJECT}/classes ${env.java_target}"/>
+		<mkdir dir="${javadest}"/>
+		<javac
+				target="${env.java_target}"
+				source="${env.java_target}"
+				executable="${env.JAVA_HOME}/bin/javac"
+				fork="true"
+				destdir="${javadest}" 
+				srcdir="${javasrc}"
+				debug="true">
+			<classpath refid="project.class.path"/>
+		</javac>
+	</target>
+	
 	<target name="jar">
 		<jar file="${prepare.dir}/generation-x/generation-x.jar">
 			<fileset dir="${master.project.dir}">
 				<include name="LICENSE-commons.txt"/>
 			</fileset>
-			<fileset dir="${prepare.dir}/generation-x/classes">
+			<fileset dir="${javadest}">
 				<include name="**/*.class"/>
 				<include name="resources/*"/>
 				<exclude name="**/CVS/**"/>
