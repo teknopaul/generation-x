@@ -15,6 +15,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * Test for code used in the README file.
+ * 
+ * @author teknopaul
+ */
 public class ReadmeTest {
 
 	private static final String TITLE = "Generation X";

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build_farm-project>
+  <downloadURL>http://code.abnoctus.com/publish/binaries/generation-x/</downloadURL>
+  <homeURL>http://code.abnoctus.com/farmweb/page/generation-x/home/</homeURL>
+  <java2htmlURL>http://code.abnoctus.com/publish/Java2HTML/generation-x/index.html</java2htmlURL>
+  <javaDocURL>http://code.abnoctus.com/publish/JavaDoc/generation-x/index.html</javaDocURL>
+  <svnURL>https://github.com/teknopaul/generation-x</svnURL>
+  <codeRenderURL>http://code.abnoctus.com/publish/Java2HTML/generation-x/index.html</codeRenderURL>
+  <downloadSourceURL>http://code.abnoctus.com/publish/sources/generation-x/</downloadSourceURL>
+  <status>new</status>
+  <version>1.0</version>
+  <description>API for generating XML with XPath like statements.</description>
+  <language>Java</language>
+  <title>Generation X</title>
+  <operations>
+    <operation class="org.tp23.farmweb.bean.BuildOperation" name="Default" type="cvs" javaHome="/usr/local/java_versions/jdk6" />
+  </operations>
+</build_farm-project>
+
