@@ -40,6 +40,20 @@ public class XGenStepTest {
 		Assert.assertNotNull(step.getAttributes());
 		Assert.assertEquals("foo", step.getAttributes().get("class"));
 
+		step = new XGenPathStep("elem.foo#baa", true);
+		Assert.assertEquals("elem", step.getElement());
+		Assert.assertEquals(1, step.getArrayLength());
+		Assert.assertNotNull(step.getAttributes());
+		Assert.assertEquals("foo", step.getAttributes().get("class"));
+		Assert.assertEquals("baa", step.getAttributes().get("id"));
+
+		step = new XGenPathStep("elem#baa.foo", true);
+		Assert.assertEquals("elem", step.getElement());
+		Assert.assertEquals(1, step.getArrayLength());
+		Assert.assertNotNull(step.getAttributes());
+		Assert.assertEquals("baa.foo", step.getAttributes().get("id"));
+		Assert.assertEquals(null, step.getAttributes().get("class"));
+
 	}
 
 }

@@ -1,11 +1,28 @@
-TODO
+#TODO
+
+## Java API
 
 support for "../" Should make chaining pretty sexy
 	this can be done at the tart of the path easily, it only affects the context, just call getParent on each node in the XGenNodeList
 	Wierd problems can arise if you do this of course and .select("..") has the same effect.
-support for lambdas in JDK 8
+support for lambdas in JDK 8, seems this is a noop, i.e. comes free as mutator is a single method interface.
 Test appendNode and node cloning in XGenNodeList
 Should trailing slashes raise a syntax error?
 
 Negative JUnit testing, check early fail and description of failure is correct.
 Syntax checker?
+
+## JavaScript API
+
+Can fully implement XGenNodeList now.
+Use length and item(i) in ALL nodeList iterating.
+How to make dom implementation abstract.
+How to make xpath implementation abstract.
+wrapper so XPath imple returns DOM nodeList structure instead of an array.
+XGen serialize (abstract Serializer??)
+Do we need the overloaded create methods?? they are fugly
+Do we need the overloaded select methods?? they are fugly
+Is select() a good name in JS, will it clash with jQuery? how about xselect() and select() for jQuery selects
+Can we abstract the differences between jQuery and XPath so you either have xgen-dom  OR jquery-xgen.js with CSS selectors only
+indentation in serialization.
+Test in a browser, investigate native selectors

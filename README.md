@@ -14,7 +14,17 @@ This is useful for generating XML when a templating system is not a good fit.
 
 # Install
 
-mvn install
+If you build with maven add this depenedency, artifacts should be available from maven central.
+
+    <dependency>
+      <groupId>org.tp23</groupId>
+      <artifactId>generation-x</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+Or git clone the repo and 
+		
+    mvn install
 
 # Example
 

@@ -111,21 +111,21 @@ public class XGenPathStep {
 			}
 		}
 		
-		// Syntactic Sugar,  body#index.container  converts to <body id="index" class="container">
-		if (dotIsClass && stepPart.indexOf('.') > -1) {
-			if (this.attributes == null) {
-				this.attributes = new HashMap<String, String>();
-			}
-			this.attributes.put("class", stepPart.substring(stepPart.indexOf('.') + 1));
-			stepPart = stepPart.substring(0, stepPart.indexOf('.'));
-		}
-		
+		// Syntactic Sugar,  body.container#index  converts to <body id="index" class="container">	
 		if (stepPart.indexOf('#') > -1) {
 			if (this.attributes == null) {
 				this.attributes = new HashMap<String, String>();
 			}
 			this.attributes.put("id", stepPart.substring(stepPart.indexOf('#') + 1));
 			stepPart = stepPart.substring(0, stepPart.indexOf('#'));
+		}
+		
+		if (dotIsClass && stepPart.indexOf('.') > -1) {
+			if (this.attributes == null) {
+				this.attributes = new HashMap<String, String>();
+			}
+			this.attributes.put("class", stepPart.substring(stepPart.indexOf('.') + 1));
+			stepPart = stepPart.substring(0, stepPart.indexOf('.'));
 		}
 
 		this.element = stepPart;

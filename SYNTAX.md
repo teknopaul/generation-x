@@ -135,7 +135,7 @@ Creates
 
     <div id="container"/>
 
-The order of the class and hash is not significant, class MUST preced an id
+The order of the class and hash is significant, class MUST preced an id
 
     div.small#container
 
