@@ -3,11 +3,9 @@
  */
 
 /**
- * @constructor
- */
-
-
-/**
+ * Parser and container for parsed xGenPaths
+ * that define XML elements to be created.
+ * 
  * @constructor
  */
 var XGenPath = function(xGenPath, dotIsClass) {
@@ -141,6 +139,8 @@ XGenPathStep.prototype.getArrayLength = function() {
 	return this.arrayLength;
 };
 
-if (exports) {
+//ifdef NODEJS
+if (typeof module !== 'undefined' && module.exports) {
 	exports.XGenPath = XGenPath;
 }
+//endif

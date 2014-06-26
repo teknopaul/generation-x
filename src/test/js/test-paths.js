@@ -28,6 +28,5 @@ assert.equal("home", path.next().getStep().attributes.id);
 
 path = new XGenPath("body/div{foo=bar,quxx=wibble}");
 assert.equal("body", path.getStep().element);
-console.log(path.next().getStep().attributes);
 assert.equal("bar", path.next().getStep().attributes.foo);
 assert.equal("wibble", path.next().getStep().attributes.quxx);

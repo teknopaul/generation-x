@@ -1,6 +1,6 @@
 # Generation-X
 
-Programatic XML generation without templates.
+Programmatic XML generation without templates.
 
 Using the Java org.w3c.dom APIs to create XML docs involves a lot of boiler plate code.
 
@@ -12,14 +12,18 @@ The following _xGenPath_ will create the expected XML output.
     
 This is useful for generating XML when a templating system is not a good fit.
 
+The original xGenPath was implemented in Java and is now ported to JavaScript for nodejs too.
+Java and Javascript code are surprisingly similar, this is due to the fact that DOM level 2
+in JavaScript and Java are very similar.
+
 # Install
 
-If you build with maven add this depenedency, artifacts should be available from maven central.
+If you build with maven add this dependency, artifacts should be available from maven central.
 
     <dependency>
       <groupId>org.tp23</groupId>
       <artifactId>generation-x</artifactId>
-      <version>1.0</version>
+      <version>1.0.1</version>
     </dependency>
 
 Or git clone the repo and 
@@ -31,7 +35,7 @@ Or git clone the repo and
 This example code creates a bootstrap HTML page. Generation-X is perhaps better suited to genreating
 XML but the HTML schema should be familiar so it should be easy to see from this example what
 the intention of the code is.
-N.B. _select()_ is using XPaths and _create()_ is useing xGenPaths.
+N.B. _select()_ is using XPaths and _create()_ is using xGenPaths.
 
     XGen xGen = XGenFactory.newInstance();
     xGen.setOutputMethod("html");
@@ -142,7 +146,7 @@ For JDK 7 we dont have lambdas yet but there is an _each()_ method to whet your 
 None at runtime, JUnit during the build.
 Jar is only a few K at this stage
 
-# Licence
+# License
 
 LGPL
 
@@ -150,9 +154,6 @@ LGPL
 
 Ideas for future development
 
-* Lamda support - need specific Java 8 builds.
-* xGenPath for jQuery - would be cool should be easy to port from Java.
-* xGenPath for nodejs - XML is not favoured in the nodejs community but might help someone.
 * xGenPath for JSON - Should be as useful for generating big JSON blobs as it is for XML.
 * Support for .. parent paths - This would save some xpath lookups, but might be hard to implement.
 

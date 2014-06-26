@@ -1,77 +1,127 @@
+/*
+ * Copyright teknopaul 2014 LGPL
+ */
 
-// To make xGenNodeList[i] work, use this syntax
-// Array.prototype.push.call(this, item);
-
+/**
+ * NodeList is an Array with a length and an item(idx) method.
+ *  
+ * @constructor
+ */
 var XGenNodeList = function(xGen, nodeList){
 	this.xGen = xGen;
-	this.list = [];
+	this.length = 0;
 	if (nodeList) this.addElements(nodeList);
 };
 
-// @static
+/**
+ * Factory method for node list containing only one node.
+ * @static
+ */
 XGenNodeList.createSingleNodeList = function(xGen, node) {
 	var xGenNodeList = new XGenNodeList(xGen);
 	xGenNodeList.add(node);
 	return xGenNodeList;
 };
 
+/**
+ * Make this compatible with DOM level 2 NodeList.
+ */
 XGenNodeList.prototype.item = function(index) {
-	return this.list[index];
+	return this[index];
 };
 
-Object.defineProperty(XGenNodeList.prototype, "length", {
-	get: function() {
-		return this.list.length;
-	},
-	set: function(len) {
-		// noop
-	}
-});
-
-XGenNodeList.prototype.getLength = function() {
-	return this.list.length;
-};
+// start - MutableNodeList, N.B. these do NOT change the DOM //
 
 XGenNodeList.prototype.add = function(node) {
-	this.list.push(node);
+	if (typeof node === 'undefined') return;
+	// magic to make this[0] work
+	Array.prototype.push.call(this, node);
 };
 
 XGenNodeList.prototype.addElements = function(nodeList) {
-	// Dom nodeList or XGenNodeList
+	// DOM nodeList
 	if (nodeList.item) {
 		for (var i = 0 ; i < nodeList.length ; i++) {
-			this.list.push(nodeList.item(i));
+			Array.prototype.push.call(this, nodeList.item(i));
 		}
 	}
 	// xPath array (TODO fix this so XPath returns proper NodeLists)
 	else if (nodeList.length) {
 		for (var i = 0 ; i < nodeList.length ; i++) {
-			this.list.push(nodeList[i]);
+			Array.prototype.push.call(this, nodeList[i]);
 		}
 	}
 };
 
-XGenNodeList.prototype.setTextContent = function(string) {
-	for (var iter = this.iterator(); iter.hasNext() ; ) {
-		var node = iter.next();
-		var text = this.xGen.document.createTextNode(string);
-		node.appendChild(text);
+// end - MutableNodeList //
+
+// start DOM Mutations //
+
+/**
+ * Accepts a single string argument, in which case the same string is used for each node.
+ * or multiple strings in which case the number of arguments should match
+ * the number of nodes in the list.
+ */
+XGenNodeList.prototype.setTextContent = function() {
+	for (var i = 0 ; i < this.length ; i++) {
+		var node = this[i];
+		var string = "";
+		if (arguments.length === 1) {
+			string = arguments[0];
+		}
+		else {
+			string = arguments[i];
+		}
+		var textNode = this.xGen.document.createTextNode(string);
+		node.appendChild(textNode);
+	} 
+	return this;
+};
+
+/**
+ * Adds an attribute to each node in the list.
+ */
+XGenNodeList.prototype.setAttribute = function(name, value) {
+	for (var i = 0 ; i < this.length ; i++) {
+		var node = this[i];
+		node.setAttribute(name, value);
 	}
 	return this;
 };
-XGenNodeList.prototype.setAttribute = function(name, value) {
-	for (var iter = this.iterator(); iter.hasNext() ; ) {
-		var node = iter.next();
-		//TODO if (node instanceof Element) {
-			node.setAttribute(name, value);
-		//}
+
+/**
+ * Adds a different attribute to each node in the list.
+ * 
+ * Accepts an array of objects to be set as attributes
+ * create("div/ul/li[4]").setAttributes([
+ *   { class : "odd selected", id : "main-menu" },
+ *   { class : "even" },
+ *   { class : "odd"  },
+ *   { class : "even" },
+ * ]);
+ * 
+ * or an array of length one in which case the same attributes
+ * are added to each node in the list.
+ */
+XGenNodeList.prototype.setAttributes = function(arr) {
+	for (var i = 0 ; i < this.length ; i++) {
+		var node = this[i];
+		var idx = arr.length > 1 ? i : 0;
+		var atts = arr[idx];
+		for (var att in atts) {
+			node.setAttribute(att, atts[att]);
+		}
 	}
 	return this;
-}
+};
+
+/**
+ * Appends a clone of the supplied node to each node in the list.
+ */
 XGenNodeList.prototype.appendChild = function(newChild) {
 	var tailNodes = new XGenNodeList(this.xGen);
-	for (var iter = this.iterator(); iter.hasNext() ; ) {
-		var node = iter.next();
+	for (var i = 0 ; i < this.length ; i++) {
+		var node = this[i];
 		var clone = newChild.cloneNode(true);
 		node.appendChild(clone);
 		tailNodes.add(clone);
@@ -79,36 +129,56 @@ XGenNodeList.prototype.appendChild = function(newChild) {
 	return tailNodes;
 };
 
+/**
+ * Calls a function for each node in the list.
+ * 
+ * The function should typically return the node it is given 
+ * to allow continuation, it may also return new nodes created.
+ * It may return nothing to filter the list.
+ * 
+ * @param function which is supplied the node as an argument.
+ * @return tailnodes if any nodes are created.
+ */
+XGenNodeList.prototype.each = function(lambda) {
+	var tailNodes = new XGenNodeList(this.xGen);
+	for (var i = 0 ; i < this.length ; i++) {
+		tailNodes.add(lambda(this[i], this.xGen));
+	}
+	return tailNodes;
+};
+
+/**
+ * Create elements based on an xGenPAth for each node in the list.
+ */
 XGenNodeList.prototype.create = function(xGenPath) /*throws XGenExpressionException*/ {
 	return this.xGen.create(this, xGenPath);
 };
-XGenNodeList.prototype.select(xPath) throws XPathExpressionException {
-	var xGenNodeList = new XGenNodeList(xGen);
-	for (var iter = this.iterator(); iter.hasNext() ; ) {
-		var node = iter.next();
+
+/**
+ * Select nodes starting from each node in the list.
+ * select() uses XPaths of CSS Selectors depending on the runtime context, web or nodejs.
+ */
+XGenNodeList.prototype.select = function(xPath) {
+	var xGenNodeList = new XGenNodeList(this.xGen);
+	for (var i = 0 ; i < this.length ; i++) {
+		var node = this[i];
 		xGenNodeList.addElements(xGen.select(node, xPath));
 	}
 	return xGenNodeList;
 };
 
-// TODO this should be better in JS 1.7, does not seem to work in node, investigate
-XGenNodeList.prototype.iterator = function() {
-	var iter = {
-		idx : 0,
-		list : this.list,
-		hasNext : function() {
-			return this.idx < this.list.length;
-		},
-		next : function() {
-			if (this.idx >= this.list.length) {
-				throw new StopIteration();
-			}
-			return this.list[this.idx++];
-		}
-	}
-	return iter;
+/**
+ * jQuerify this nodelist
+ * e.g. 
+ * ...
+ * .create("p/ul/li[5]").$().hide();
+ */
+XGenNodeList.prototype.$ = function() {
+	return $(this);
 };
 
-if (exports) {
-	exports.XGenNodeList = XGenNodeList;
+//ifdef NODEJS
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports.XGenNodeList = XGenNodeList;
 }
+//endif

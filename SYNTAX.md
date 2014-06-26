@@ -105,7 +105,7 @@ Use of them is optional.
 
 ### Class attributes
 
-An optional feature, that is must be possible to deisable., is for the period character "." to denote aan elements class attribute.
+An optional feature, that is must be possible to disable., is for the period character "." to denote aan elements class attribute.
 This should be a familiar syntax for those who have worked with HTML selectors.
 
     div.container
@@ -135,7 +135,7 @@ Creates
 
     <div id="container"/>
 
-The order of the class and hash is significant, class MUST preced an id
+The order of the class and hash is significant, class MUST proceed an id
 
     div.small#container
 
@@ -178,4 +178,4 @@ Creative Commons Attribution-NoDerivatives 4.0 International
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nd/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nd/4.0/">Creative Commons Attribution-NoDerivatives 4.0 International License</a>
 
-i.e. you can copy and use the spec. but you cant play silly buggers with it.  If you come up some funky extensions, get in touch.
+i.e. you can copy and use the spec. but you can't play silly buggers with it.  If you come up some funky extensions, get in touch.

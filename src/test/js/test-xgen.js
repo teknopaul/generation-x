@@ -28,3 +28,4 @@ xGen.select("//div[@class='row'][2]").create("div.col-md-10 jumbotron/h1").setTe
 container.create("div.row/div.text-center/footer/p.small").setTextContent("Copyleft teknopaul");
 
 console.log(new XMLSerializer().serializeToString(xGen.document));
+

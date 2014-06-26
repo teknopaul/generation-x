@@ -11,3 +11,6 @@ hs_err_pid*
 lib.version.properties.env
 maven-archiver
 surefire-reports
+*~
+target
+node_modules

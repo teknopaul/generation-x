@@ -10,4 +10,10 @@ do
 	node $jsfile
 done
 
+for jsfile in `ls -1 ../src/test/js/*.js`
+do
+	echo $jsfile
+	node $jsfile
+done
+
  
