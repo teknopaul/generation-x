@@ -18,7 +18,7 @@ creates...
 
 Each element in the Path is created, even if an element of the same name already exists.
 
-Use of the following two xGenPaths on the same document would create two <body> elements, which is probably not what is desired.
+Use of the following two xGenPaths on the same document would create two `<body>`  elements, which is probably not what is desired.
 
     body/div
     body/footer
@@ -90,7 +90,7 @@ Creates...
 
     <a att=" 1 "/>
 
-The characters .,/=}{[]# are NOT escapable.  It is not possible to create an attribute value contain these characters using an xGenPath.
+The characters `.,/=}{[]#` are NOT escapable.  It is not possible to create an attribute value contain these characters using an xGenPath.
 Use you languages APIs for attributes with characters, in the Java reference implementation this is achieved as follows.
 
     create("a{title=Go to example}").setAttribute("href", "http://example.com");
@@ -105,7 +105,7 @@ Use of them is optional.
 
 ### Class attributes
 
-An optional feature, that is must be possible to disable., is for the period character "." to denote aan elements class attribute.
+An optional feature, that is must be possible to disable, is for the period character `.` to denote an elements class attribute.
 This should be a familiar syntax for those who have worked with HTML selectors.
 
     div.container
@@ -126,8 +126,8 @@ A period is a valid part of an XML element name.
 
 ### Hash IDs
 
-The # character can be used after the element or element and class definition as a shorthand for specifying an ID for the element.
-This is not optional # is not a valid part of an XML element name.
+The `#` character can be used after the element or element and class definition as a shorthand for specifying an ID for the element.
+This is not optional `#` is not a valid part of an XML element name.
 
     div#container
 
@@ -151,20 +151,20 @@ Creates
 
     <div id="container.small"/>
 
-Again, there is no escaping, so it is not possible to create <a class="#"/> using xGenPath.
+Again, there is no escaping, so it is not possible to create `<a class="#"/>` using xGenPath.
 
 ## Parents
 
-.. is reserved for a future version. It is an error to include .. as an element name in the initial version.
+`..` is reserved for a future version. It is an error to include `..` as an element name in the initial version.
 
-Future versions may support .. at the start of an xGenPath and this will denote modifying only the initial context at which element creation begins.
+Future versions may support `..` at the start of an xGenPath and this will denote modifying only the initial context at which element creation begins.
 
     ../../a
 
 
 # Summary
 
-I could have just written /html{lang=en}/body/div.small#container[2] and you probably would have got it.
+I could have just written `/html{lang=en}/body/div.small#container/tr[3]/td[4]` and you probably would have got it.
 
 xGenPaths are simpler than XPaths.
 
