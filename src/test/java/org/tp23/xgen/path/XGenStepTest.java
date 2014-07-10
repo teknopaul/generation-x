@@ -3,7 +3,7 @@
  */
 package org.tp23.xgen.path;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 
@@ -53,6 +53,16 @@ public class XGenStepTest {
 		Assert.assertNotNull(step.getAttributes());
 		Assert.assertEquals("baa.foo", step.getAttributes().get("id"));
 		Assert.assertEquals(null, step.getAttributes().get("class"));
+
+		XGenPath path = new XGenPath("elem.foo[?]/baa[?]", true, 3, 4);
+		Assert.assertEquals("elem", path.getStep().getElement());
+		Assert.assertEquals(3, path.getStep().getArrayLength());
+		Assert.assertNotNull(step.getAttributes());
+		Assert.assertEquals("foo", path.getStep().getAttributes().get("class"));
+		path = path.next();
+		Assert.assertEquals("baa", path.getStep().getElement());
+		Assert.assertEquals(4, path.getStep().getArrayLength());
+		Assert.assertNull(path.getStep().getAttributes());
 
 	}
 

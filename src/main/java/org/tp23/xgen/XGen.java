@@ -80,14 +80,14 @@ public class XGen {
 	 * @return org.w3c.dom.Document
 	 * @throws XGenExpressionException
 	 */
-	public XGenNodeList newDocument(String xGenPath) throws XGenExpressionException {
+	public XGenNodeList newDocument(String xGenPath, int... arrayLengths) throws XGenExpressionException {
 		if (getRoot() != null) {
 			throw new IllegalStateException("Document already exists");
 		}
 		if ( ! xGenPath.startsWith("/")) {
 			throw new XGenExpressionException("New document needs an absolute path to start");
 		}
-		XGenPath parsedGenPath = new XGenPath(xGenPath.substring(1), dotIsClass());
+		XGenPath parsedGenPath = new XGenPath(xGenPath.substring(1), dotIsClass(), arrayLengths);
 		if ( parsedGenPath.getStep().getArrayLength() != 1 ) {
 			throw new XGenExpressionException("Must be only one root element");
 		}
@@ -117,37 +117,37 @@ public class XGen {
 	// Core XMLcreation methods
 	
 	/**
-	 * Create XML content, and insert it as a chile of the cotent element.
+	 * Create XML content, and insert it as a child of the content element.
 	 * 
 	 * @param elem where to insert the new elements
 	 * @param xGenPath a xGen path string, or a whole parseable XML doc as a string.
 	 * @return The tail nodes, i.e. a list of all leaf nodes created
 	 * @throws XGenExpressionException
 	 */
-	public XGenNodeList create(Element elem, String xGenPath) throws XGenExpressionException {
+	public XGenNodeList create(Element elem, String xGenPath, int... arrayLengths) throws XGenExpressionException {
 		XGenNodeList tailNodes = new XGenNodeList(this);
 		XGenNodeList context = XGenNodeList.createSingleNodeList(this, elem);
-		create(context, xGenPath, tailNodes);
+		create(context, xGenPath, tailNodes, arrayLengths);
 		return tailNodes;
 	}
 	
 	/**
 	 * Create XML content, and append to all nodes in the list.
 	 */
-	public XGenNodeList create(XGenNodeList context, String xGenPath) throws XGenExpressionException {
+	public XGenNodeList create(XGenNodeList context, String xGenPath, int... arrayLengths) throws XGenExpressionException {
 		XGenNodeList tailNodes = new XGenNodeList(this);
-		create(context, xGenPath, tailNodes);
+		create(context, xGenPath, tailNodes, arrayLengths);
 		return tailNodes;
 	}
 	
 	/**
 	 * Create XML content, for all nodes in the list.
 	 */
-	public XGenNodeList create(NodeList context, String xGenPath) throws XGenExpressionException {
+	public XGenNodeList create(NodeList context, String xGenPath, int... arrayLengths) throws XGenExpressionException {
 		XGenNodeList tailNodes = new XGenNodeList(this);
 		XGenNodeList xContext = new XGenNodeList(this);
 		xContext.addElements(context);
-		create(xContext, xGenPath, tailNodes);
+		create(xContext, xGenPath, tailNodes, arrayLengths);
 		return tailNodes;
 	}
 	
@@ -158,10 +158,10 @@ public class XGen {
 	 * @return The tail nodes, i.e. a list of all leaf nodes created
 	 * @throws XGenExpressionException
 	 */
-	public XGenNodeList create(String xGenPath) throws XGenExpressionException {
+	public XGenNodeList create(String xGenPath, int... arrayLengths) throws XGenExpressionException {
 		XGenNodeList tailNodes = new XGenNodeList(this);
 		XGenNodeList context = XGenNodeList.createSingleNodeList(this, getRoot());
-		create(context, xGenPath, tailNodes);
+		create(context, xGenPath, tailNodes, arrayLengths);
 		return tailNodes;
 	}
 	
@@ -290,15 +290,15 @@ public class XGen {
 	// Private creation methods
 	
 	/**
-	 * This method sjhould be the only mehtod that calls Element generation if
+	 * This method should be the only method that calls Element generation if
 	 * parsing XML is also required. 
 	 */
-	private void create(XGenNodeList context, String xGenPath, XGenNodeList tailNodes) throws XGenExpressionException {
+	private void create(XGenNodeList context, String xGenPath, XGenNodeList tailNodes, int... arrayLengths) throws XGenExpressionException {
 		// hackety ho hum
 		if (xGenPath.startsWith("<")) {
 			insert(context, xGenPath);
 		} else {
-			create(context, new XGenPath(xGenPath, dotIsClass()), tailNodes);
+			create(context, new XGenPath(xGenPath, dotIsClass(), arrayLengths), tailNodes);
 		}
 	}
 	
