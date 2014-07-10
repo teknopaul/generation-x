@@ -12,7 +12,9 @@ Negative JUnit testing, check early fail and description of failure is correct.
 Syntax checker?
 
 ## JavaScript API
-
+ComonJS packaging
+Submit to NPM
+Comments for test code
 Error types
 How to make dom implementation abstract.
 How to make xpath implementation abstract.
@@ -25,3 +27,5 @@ Do we need the overloaded select methods?? they are fugly
 
 Test in a browser, investigate native selectors
 
+Browser should use
+var docFragment = document.createDocumentFragment();

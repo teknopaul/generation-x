@@ -106,7 +106,10 @@ public class XGen {
 		}
 		return tailNodes;
 	}
-	
+	// Same as above some Java versions cant handle empty varargs
+	public XGenNodeList newDocument(String xGenPath) throws XGenExpressionException {
+		return newDocument(xGenPath, new int[0]);
+	}
 	/**
 	 * @return The root element of the document being created.
 	 */
@@ -130,6 +133,9 @@ public class XGen {
 		create(context, xGenPath, tailNodes, arrayLengths);
 		return tailNodes;
 	}
+	public XGenNodeList create(Element elem, String xGenPath) throws XGenExpressionException {
+		return create(elem, xGenPath, new int[0]);
+	}
 	
 	/**
 	 * Create XML content, and append to all nodes in the list.
@@ -139,7 +145,10 @@ public class XGen {
 		create(context, xGenPath, tailNodes, arrayLengths);
 		return tailNodes;
 	}
-	
+	public XGenNodeList create(XGenNodeList context, String xGenPath) throws XGenExpressionException {
+		return create(context, xGenPath, new int[0]);
+	}
+
 	/**
 	 * Create XML content, for all nodes in the list.
 	 */
@@ -150,7 +159,9 @@ public class XGen {
 		create(xContext, xGenPath, tailNodes, arrayLengths);
 		return tailNodes;
 	}
-	
+	public XGenNodeList create(NodeList context, String xGenPath) throws XGenExpressionException {
+		return create(context, xGenPath, new int[0]);
+	}	
 	/**
 	 * Create XML content, and insert it as a child of the root element.
 	 * 
@@ -163,6 +174,9 @@ public class XGen {
 		XGenNodeList context = XGenNodeList.createSingleNodeList(this, getRoot());
 		create(context, xGenPath, tailNodes, arrayLengths);
 		return tailNodes;
+	}
+	public XGenNodeList create(String xGenPath) throws XGenExpressionException {
+		return create(xGenPath, new int[0]);
 	}
 	
 	// Convenience methods for XPath
@@ -301,7 +315,9 @@ public class XGen {
 			create(context, new XGenPath(xGenPath, dotIsClass(), arrayLengths), tailNodes);
 		}
 	}
-	
+	private void create(XGenNodeList context, String xGenPath, XGenNodeList tailNodes) throws XGenExpressionException {
+		create(context, xGenPath, tailNodes, new int[0]);
+	}
 	/**
 	 * Recursively add Elements to the document.
 	 * 

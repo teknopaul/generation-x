@@ -8,7 +8,7 @@ This project implements an XPath like syntax for generating new XML elements.
 
 The following _xGenPath_ will create the expected XML output.
 
-    /html/body/div#container/table.table/tbody/tr[5]
+    /html/body/div#container/table.table/tbody/tr/td[5]
     
 This is useful for generating XML when a templating system is not a good fit.
 
