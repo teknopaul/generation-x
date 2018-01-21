@@ -1,0 +1,31 @@
+#TODO
+
+## Java API
+
+support for "../" Should make chaining pretty sexy
+	this can be done at the tart of the path easily, it only affects the context, just call getParent on each node in the XGenNodeList
+	Wierd problems can arise if you do this of course and .select("..") has the same effect.
+Test appendNode and node cloning in XGenNodeList
+Should trailing slashes raise a syntax error?
+
+Negative JUnit testing, check early fail and description of failure is correct.
+Syntax checker?
+
+## JavaScript API
+ComonJS packaging
+Submit to NPM
+Comments for test code
+Error types
+How to make dom implementation abstract.
+How to make xpath implementation abstract.
+wrapper so XPath imple returns DOM nodeList structure instead of an array.
+	Submit a pull request to xpath project implementing item(i)
+XGen serialize (abstract Serializer??)
+indentation in serialization.
+Do we need the overloaded create methods?? they are fugly
+Do we need the overloaded select methods?? they are fugly
+
+Test in a browser, investigate native selectors
+
+Browser should use
+var docFragment = document.createDocumentFragment();
